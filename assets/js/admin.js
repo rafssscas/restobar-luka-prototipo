@@ -13,7 +13,8 @@ function login(){
   const pin = $('a-pin').value;
   if(pin==='1234'){
     $('a-err').classList.add('d-none');
-    showA('a-dash');
+    // redirigir a la versión por páginas separadas
+    window.location.href = 'admin-dashboard.html';
   }else{
     $('a-err').classList.remove('d-none');
   }
@@ -80,3 +81,12 @@ function downloadJSON(){
   a.href = url; a.download = 'restobar-mockdb.json'; a.click();
   URL.revokeObjectURL(url);
 }
+
+
+/* Permitir Enter para iniciar sesión */
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter' && document.getElementById('a-pin')){
+    e.preventDefault();
+    login();
+  }
+});

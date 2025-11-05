@@ -1,0 +1,1 @@
+# Resto Bar Luka – Prototipo Educativo\n\nAbrí `index.html` para navegar por los paneles. Hecho con Bootstrap 5, sin backend, datos mockeados en `assets/js/data.js`.\n

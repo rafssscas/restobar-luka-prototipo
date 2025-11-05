@@ -1,0 +1,139 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administrador – Resto Bar Luka</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="./assets/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<header class="bg-dark text-white text-center py-4">
+  <h1 class="h3 mb-0">Panel Administrador</h1>
+</header>
+
+<main class="container py-4">
+  <!-- LOGIN -->
+  <section id="a-login" class="section active">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-6 col-lg-5">
+        <div class="card card-shadow p-4">
+          <h2 class="h4 text-center mb-3">Acceso</h2>
+          <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input id="a-user" class="form-control" value="admin"/>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">PIN</label>
+            <input id="a-pin" type="password" class="form-control" placeholder="1234"/>
+          </div>
+          <button class="btn btn-primary w-100" onclick="login()">Ingresar</button>
+          <div id="a-err" class="text-danger small mt-2 d-none">PIN incorrecto.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="a-dash" class="section">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h4 mb-0">Dashboard</h2>
+      <div class="btn-group">
+        <button class="btn btn-outline-secondary" onclick="showA('a-dash')">Dashboard</button>
+        <button class="btn btn-outline-secondary" onclick="showA('a-menu')">Gestión Menú</button>
+        <button class="btn btn-outline-secondary" onclick="showA('a-reports')">Reportes</button>
+        <button class="btn btn-outline-danger" onclick="logout()">Salir</button>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-3"><div class="card p-3 kpi ok"><div class="text-muted">Ventas del día</div><div class="fs-3 fw-bold">$ 235.800</div><div class="text-success small">+5.2% vs ayer</div></div></div>
+      <div class="col-md-3"><div class="card p-3 kpi"><div class="text-muted">Reservas hoy</div><div class="fs-3 fw-bold" id="kpi-res"></div><div class="small">2 pendientes</div></div></div>
+      <div class="col-md-3"><div class="card p-3 kpi"><div class="text-muted">Calificación (30d)</div><div class="fs-3 fw-bold"><span id="kpi-avg"></span> ★</div><div class="small">Basado en <span id="kpi-ops"></span> opiniones</div></div></div>
+      <div class="col-md-3"><div class="card p-3 kpi"><div class="text-muted">Pedidos activos</div><div class="fs-3 fw-bold" id="kpi-orders"></div><div class="small">3 en preparación</div></div></div>
+    </div>
+
+    <div class="row g-3 mt-2">
+      <div class="col-lg-6">
+        <div class="card card-shadow p-3">
+          <h5>Ventas (ejemplo)</h5>
+          <div class="progress my-2" style="height: 10px;"><div class="progress-bar" style="width:60%"></div></div>
+          <div class="progress my-2" style="height: 10px;"><div class="progress-bar bg-success" style="width:75%"></div></div>
+          <div class="progress my-2" style="height: 10px;"><div class="progress-bar bg-info" style="width:50%"></div></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card card-shadow p-3">
+          <h5>Platos más pedidos</h5>
+          <div class="my-2">Lomo Saltado <div class="progress"><div class="progress-bar bg-primary" style="width:35%"></div></div></div>
+          <div class="my-2">Milanesa Napo. <div class="progress"><div class="progress-bar bg-secondary" style="width:25%"></div></div></div>
+          <div class="my-2">Empanadas <div class="progress"><div class="progress-bar bg-warning" style="width:20%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU MGMT -->
+  <section id="a-menu" class="section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h2 class="h4 mb-0">Gestión del Menú</h2>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#m-add">Agregar Plato</button>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead><tr><th>Plato</th><th>Categoría</th><th>Precio</th><th>Acciones</th></tr></thead>
+        <tbody id="a-menu-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- REPORTS -->
+  <section id="a-reports" class="section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h2 class="h4 mb-0">Reportes y Comentarios</h2>
+      <button class="btn btn-outline-secondary" onclick="downloadJSON()">Exportar JSON</button>
+    </div>
+    <div class="row g-3">
+      <div class="col-lg-8">
+        <div class="card card-shadow p-3 min-h-70vh">
+          <h5>Satisfacción (últimos 30 días)</h5>
+          <div class="my-2">5★ <div class="progress"><div class="progress-bar bg-success" style="width:41%"></div></div></div>
+          <div class="my-2">4★ <div class="progress"><div class="progress-bar bg-success" style="width:38%"></div></div></div>
+          <div class="my-2">3★ <div class="progress"><div class="progress-bar bg-warning" style="width:15%"></div></div></div>
+          <div class="my-2">2★ <div class="progress"><div class="progress-bar bg-warning" style="width:4%"></div></div></div>
+          <div class="my-2">1★ <div class="progress"><div class="progress-bar bg-danger" style="width:2%"></div></div></div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card card-shadow p-3 min-h-70vh">
+          <h5>Últimos comentarios</h5>
+          <div id="a-comments" class="vstack gap-2"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="text-center py-3">© 2025 Resto Bar Luka</footer>
+
+<!-- Add Modal -->
+<div class="modal fade" id="m-add" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Nuevo plato</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body vstack gap-2">
+        <div><label class="form-label">Categoría</label><select id="add-cat" class="form-select"></select></div>
+        <div><label class="form-label">Nombre</label><input id="add-name" class="form-control"/></div>
+        <div><label class="form-label">Precio</label><input id="add-price" type="number" class="form-control"/></div>
+        <div><label class="form-label">URL Imagen (opcional)</label><input id="add-img" class="form-control"/></div>
+      </div>
+      <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-primary" onclick="addItem()">Guardar</button></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./assets/js/data.js"></script>
+<script src="./assets/js/admin.js"></script>
+</body>
+</html>

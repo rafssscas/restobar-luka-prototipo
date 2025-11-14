@@ -19,7 +19,25 @@ function renderOrders(){
     if(cols[o.status]) cols[o.status].appendChild(card);
   });
 }
-function upd(id, st){ MockAPI.updateOrder(id,st); renderOrders(); }
+function upd(id, st){
+  MockAPI.updateOrder(id,st);
+  renderOrders();
+  if(st==='ready'){
+    const order = MockDB.orders.find(o=>o.id===id);
+    showNotif(`✅ Pedido listo para Mesa ${order.table}`, 'success');
+  }
+}
+
+function renderCalls(){
+  const body = $$('s-calls-body'); body.innerHTML='';
+  MockDB.waiterCalls.forEach(c=>{
+    const card = document.createElement('div'); card.className='border rounded p-2 d-flex justify-content-between align-items-center';
+    card.innerHTML = `<div class="fw-bold">Mesa ${c.table}</div>
+      <div class="text-muted">${c.time}</div>
+      <button class="btn btn-sm btn-success">Atendido</button>`;
+    body.appendChild(card);
+  });
+}
 
 function renderStock(){
   const tbody = $$('stock-body'); tbody.innerHTML='';
@@ -55,5 +73,22 @@ function sendChat(){
   inp.value=''; renderChat();
 }
 
+function showNotif(msg, theme='info'){
+  const cont = $$('s-notifications');
+  const notif = document.createElement('div');
+  notif.className = `alert alert-${theme} alert-dismissible fade show`;
+  notif.innerHTML = `${msg} <button class="btn-close" data-bs-dismiss="alert"></button>`;
+  cont.appendChild(notif);
+}
+
 // init
-renderOrders(); renderStock(); renderChat();
+renderOrders(); renderCalls(); renderStock(); renderChat();
+
+// Notificaciones al iniciar
+if(MockDB.reservations.length > 0){
+  showNotif(`🔔 Hay ${MockDB.reservations.length} reserva(s) pendiente(s) de confirmación.`);
+}
+const pendingCount = MockDB.orders.filter(o=>o.status==='pending').length;
+if(pendingCount > 0){
+  showNotif(`🍽️ Hay ${pendingCount} pedidos pendientes.`, 'danger');
+}

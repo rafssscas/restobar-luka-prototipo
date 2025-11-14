@@ -3,25 +3,25 @@
 window.MockDB = {
   menu: [
     { category: "Entradas", items: [
-      { id:1, name:"Empanadas Salteñas (x2)", price:1200, img:"https://placehold.co/600x400/f59e0b/333?text=Empanadas" },
-      { id:2, name:"Provoleta Ahumada", price:3500, img:"https://placehold.co/600x400/facc15/333?text=Provoleta" },
-      { id:3, name:"Rabas Crocantes", price:5900, img:"https://placehold.co/600x400/eab308/333?text=Rabas" }
+      { id:1, name:"Empanadas Salteñas (x2)", price:1200, description:"Rellenas de carne cortada a cuchillo.", img:"https://placehold.co/600x400/f59e0b/333?text=Empanadas" },
+      { id:2, name:"Provoleta Ahumada", price:3500, description:"Con aceite de oliva y orégano.", img:"https://placehold.co/600x400/facc15/333?text=Provoleta" },
+      { id:3, name:"Rabas Crocantes", price:5900, description:"Aros de calamar rebozados.", img:"https://placehold.co/600x400/eab308/333?text=Rabas" }
     ]},
     { category: "Platos Principales", items: [
-      { id:4, name:"Lomo Saltado", price:8900, img:"https://placehold.co/600x400/8b5cf6/fff?text=Lomo" },
-      { id:5, name:"Milanesa Napolitana c/Fritas", price:8200, img:"https://placehold.co/600x400/c026d3/fff?text=Milanesa" },
-      { id:6, name:"Risotto de Hongos", price:7800, img:"https://placehold.co/600x400/db2777/fff?text=Risotto" },
-      { id:7, name:"Salmón con Vegetales", price:10500, img:"https://placehold.co/600x400/e11d48/fff?text=Salmon" }
+      { id:4, name:"Lomo Saltado", price:8900, description:"Salteado de lomo, cebolla, tomate y papas.", img:"https://placehold.co/600x400/8b5cf6/fff?text=Lomo" },
+      { id:5, name:"Milanesa Napolitana c/Fritas", price:8200, description:"Milanesa de ternera con salsa, jamón y queso.", img:"https://placehold.co/600x400/c026d3/fff?text=Milanesa" },
+      { id:6, name:"Risotto de Hongos", price:7800, description:"Arroz cremoso con variedad de hongos.", img:"https://placehold.co/600x400/db2777/fff?text=Risotto" },
+      { id:7, name:"Salmón con Vegetales", price:10500, description:"Salmón a la plancha con vegetales de estación.", img:"https://placehold.co/600x400/e11d48/fff?text=Salmon" }
     ]},
     { category: "Bebidas", items: [
-      { id:8, name:"Agua s/ Gas", price:1200, img:"https://placehold.co/600x400/3b82f6/fff?text=Agua" },
-      { id:9, name:"Gaseosa (Coca-Cola)", price:1500, img:"https://placehold.co/600x400/ef4444/fff?text=Gaseosa" },
-      { id:10, name:"Copa Vino Malbec", price:2800, img:"https://placehold.co/600x400/7e22ce/fff?text=Vino" },
-      { id:11, name:"Cerveza IPA", price:2300, img:"https://placehold.co/600x400/f59e0b/fff?text=Cerveza" }
+      { id:8, name:"Agua s/ Gas", price:1200, description:"", img:"https://placehold.co/600x400/3b82f6/fff?text=Agua" },
+      { id:9, name:"Gaseosa (Coca-Cola)", price:1500, description:"", img:"https://placehold.co/600x400/ef4444/fff?text=Gaseosa" },
+      { id:10, name:"Copa Vino Malbec", price:2800, description:"", img:"https://placehold.co/600x400/7e22ce/fff?text=Vino" },
+      { id:11, name:"Cerveza IPA", price:2300, description:"", img:"https://placehold.co/600x400/f59e0b/fff?text=Cerveza" }
     ]},
     { category: "Postres", items: [
-      { id:12, name:"Tiramisú", price:3600, img:"https://placehold.co/600x400/78350f/fff?text=Tiramisu" },
-      { id:13, name:"Flan con Dulce", price:3200, img:"https://placehold.co/600x400/fbbf24/333?text=Flan" }
+      { id:12, name:"Tiramisú", price:3600, description:"Clásico postre italiano.", img:"https://placehold.co/600x400/78350f/fff?text=Tiramisu" },
+      { id:13, name:"Flan con Dulce", price:3200, description:"Flan casero con dulce de leche.", img:"https://placehold.co/600x400/fbbf24/333?text=Flan" }
     ]}
   ],
   ratings: [
@@ -35,7 +35,10 @@ window.MockDB = {
     { type:"queja", message:"La música estaba fuerte el viernes." }
   ],
   reservations: [
-    { name:"Ana", date:"2025-11-06", time:"21:00", people:4 }
+    { name:"Ana", phone:1155551234, date:"2025-11-06", time:"21:00", people:4 }
+  ],
+  waiterCalls: [
+    { table: 8, time: "20:15" }
   ],
   orders: [
     { id:101, table:5, items:"Lomo Saltado", time:"19:32", status:"pending" },
@@ -75,8 +78,13 @@ window.MockAPI = {
   addSuggestion(type, message){
     MockDB.suggestions.push({type, message});
   },
-  addReservation(name,date,time,people){
-    MockDB.reservations.push({name,date,time,people});
+  addReservation(name,phone,date,time,people){
+    MockDB.reservations.push({name,phone,date,time,people});
+  },
+  addWaiterCall(table){
+    const now = new Date();
+    const time = `${now.getHours()}:${now.getMinutes()}`;
+    MockDB.waiterCalls.push({table, time});
   },
   updateOrder(id, status){
     const o = MockDB.orders.find(x=>x.id===id);

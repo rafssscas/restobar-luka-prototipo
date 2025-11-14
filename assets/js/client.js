@@ -36,8 +36,11 @@ function drawItems(i){
     const row = document.createElement('div');
     row.className='d-flex gap-3 align-items-center p-2 bg-white rounded card-shadow border';
     row.innerHTML = `<img class="menu-img" src="${item.img}"/>
-      <div class="flex-grow-1"><div class="fw-bold">${item.name}</div>
-      <div class="text-primary fw-semibold">$${item.price}</div></div>
+      <div class="flex-grow-1">
+        <div class="fw-bold">${item.name}</div>
+        <div class="text-muted small">${item.description}</div>
+        <div class="text-primary fw-semibold">$${item.price}</div>
+      </div>
       <button class="btn btn-outline-primary btn-sm">Agregar</button>`;
     items.appendChild(row);
   });
@@ -67,11 +70,19 @@ function sendSuggestion(){
 // RESERVATIONS
 function sendReservation(){
   const name=$id('r-name').value.trim();
+  const phone=$id('r-phone').value.trim();
   const date=$id('r-date').value; const time=$id('r-time').value;
   const people=Number($id('r-people').value||1);
-  if(!name||!date||!time){ alert('Completá todos los campos.'); return; }
-  MockAPI.addReservation(name, date, time, people);
-  alert('¡Reserva confirmada! El administrador fue notificado.');
+  if(!name||!date||!time||!phone){ alert('Completá todos los campos.'); return; }
+  MockAPI.addReservation(name, phone, date, time, people);
+  alert('¡Reserva confirmada! El personal se contactará para confirmar.');
+}
+
+// CALL WAITER
+function callWaiter(){
+  const table = 12; // harcoded por ser prototipo
+  MockAPI.addWaiterCall(table);
+  alert(`Llamado a la mesa ${table} realizado. ¡Un mozo se acercará en breve!`);
 }
 
 // RANKING

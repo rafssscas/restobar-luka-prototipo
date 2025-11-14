@@ -73,8 +73,12 @@
     <h2 class="h4">Hacer una reserva</h2>
     <div class="row g-3">
       <div class="col-md-6">
-        <label class="form-label">Nombre</label>
+        <label class="form-label">Nombre y Apellido</label>
         <input id="r-name" class="form-control" required placeholder="Tu nombre"/>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Nro. Celular</label>
+        <input id="r-phone" type="tel" class="form-control" required placeholder="11..."/>
       </div>
       <div class="col-md-3">
         <label class="form-label">Fecha</label>
@@ -110,7 +114,7 @@
     <button class="btn btn-link" onclick="showC('menu')">🍽️ Menú</button>
     <button class="btn btn-link" onclick="showC('c-reserve')">📅 Reservar</button>
     <button class="btn btn-link" onclick="showC('rating')">⭐ Calificar</button>
-    <button class="btn btn-link" onclick="showC('ranking')">🏆 Ranking</button>
+    <button class="btn btn-link" onclick="callWaiter()">🔔 Llamar</button>
     <button class="btn btn-link" onclick="showC('suggest')">💬 Sugerir</button>
   </div>
 </nav>

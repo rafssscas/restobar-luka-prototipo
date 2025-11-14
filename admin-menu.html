@@ -9,14 +9,26 @@
 <link href="./assets/css/styles.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="admin-dashboard.html">← Volver al Dashboard</a>
+    <a class="navbar-brand fw-bold" href="index.html">Resto Bar Luka</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="admin-dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link active" href="admin-menu.html">Gestión Menú</a></li>
+        <li class="nav-item"><a class="nav-link" href="admin-reportes.html">Reportes</a></li>
+        <li class="nav-item"><a class="nav-link" href="admin-sales.html">Ventas</a></li>
+        <li class="nav-item"><a class="nav-link text-danger" href="admin.html">Salir</a></li>
+      </ul>
+    </div>
   </div>
 </nav>
 <main class="container py-4">
   <h1 class="h4 mb-3">Gestión del Menú</h1>
-  <div class="alert alert-info">Pantalla en construcción (prototipo). Usar pantalla de gestión en <code>admin.html</code> si querés ver el ABM embebido.</div>
+    <div class="alert alert-info">Pantalla en construcción (prototipo).</div>
 </main>
 </body>
 </html>

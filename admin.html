@@ -35,6 +35,96 @@
     </div>
   </section>
 
+  <!-- SALES -->
+  <section id="a-sales" class="section">
+    <div class="container">
+      <div class="card card-shadow p-4">
+        <div class="mb-4 border-bottom pb-3">
+          <h1 class="h3 fw-bold text-dark">Panel de Administrador</h1>
+          <p class="text-secondary">Módulo de Ventas y Cierre de Mesas</p>
+        </div>
+        <h2 class="h4 fw-semibold text-dark mb-3">Pedidos Listos para Cobrar</h2>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th>Mesa Nro.</th>
+                <th>Resumen de Items</th>
+                <th>Total</th>
+                <th class="text-center">Estado</th>
+                <th class="text-center">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fw-medium">5</td>
+                <td>2x Milanesa, 1x Gaseosa, 1x Flan</td>
+                <td class="fw-medium">$25.500,00</td>
+                <td class="text-center">
+                  <span class="badge bg-success">TERMINADO</span>
+                </td>
+                <td class="text-center">
+                  <button onclick="mostrarModal(5, '$25.500,00')" class="btn btn-primary">
+                    Cerrar y Cobrar
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="fw-medium">12</td>
+                <td>1x Picada, 2x Cerveza Artesanal</td>
+                <td class="fw-medium">$18.000,00</td>
+                <td class="text-center">
+                  <span class="badge bg-success">TERMINADO</span>
+                </td>
+                <td class="text-center">
+                  <button onclick="mostrarModal(12, '$18.000,00')" class="btn btn-primary">
+                    Cerrar y Cobrar
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="fw-medium">8</td>
+                <td>4x Cafés, 4x Medialunas</td>
+                <td class="fw-medium">$8.400,00</td>
+                <td class="text-center">
+                  <span class="badge bg-success">TERMINADO</span>
+                </td>
+                <td class="text-center">
+                  <button onclick="mostrarModal(8, '$8.400,00')" class="btn btn-primary">
+                    Cerrar y Cobrar
+                  </button>
+                </td>
+              </tr>
+              <tr class="table-secondary">
+                <td class="fw-medium">3</td>
+                <td>1x Hamburguesa, 1x Papas Fritas</td>
+                <td class="fw-medium">$11.200,00</td>
+                <td class="text-center">
+                  <span class="badge bg-warning text-dark">EN COCINA</span>
+                </td>
+                <td class="text-center">
+                  <button class="btn btn-secondary" disabled>
+                    Cerrar y Cobrar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <span class="text-muted">Mostrando 1-4 de 4 pedidos listos</span>
+          <nav>
+            <ul class="pagination mb-0">
+              <li class="page-item disabled"><a class="page-link" href="#">&laquo; Ant</a></li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">Sig &raquo;</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- DASHBOARD -->
   <section id="a-dash" class="section">
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -43,6 +133,7 @@
         <button class="btn btn-outline-secondary" onclick="showA('a-dash')">Dashboard</button>
         <button class="btn btn-outline-secondary" onclick="showA('a-menu')">Gestión Menú</button>
         <button class="btn btn-outline-secondary" onclick="showA('a-reports')">Reportes</button>
+        <button class="btn btn-outline-secondary" onclick="showA('a-sales')">Ventas</button>
         <button class="btn btn-outline-danger" onclick="logout()">Salir</button>
       </div>
     </div>
@@ -115,6 +206,42 @@
 </main>
 
 <footer class="text-center py-3">© 2025 Resto Bar Luka</footer>
+
+<!-- Sales Modals -->
+<div class="modal fade" id="confirmationModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Confirmar Venta</h5>
+        <button type="button" class="btn-close" onclick="cerrarModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Desea generar el ticket de pago para la <strong id="modalMesa"></strong> por un total de <strong id="modalTotal"></strong>?</p>
+        <p class="small text-muted">Esta acción registrará la venta y marcará la mesa como 'Pagada'.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+        <button type="button" class="btn btn-success" onclick="confirmarVenta()">Confirmar Pago</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="successModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body text-center p-4">
+        <div class="text-success mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-check-circle-fill mx-auto" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+          </svg>
+        </div>
+        <h4 class="h4">¡Venta Registrada!</h4>
+        <p>El ticket de pago se ha generado exitosamente.</p>
+        <button class="btn btn-primary w-100" onclick="cerrarSuccessModal()">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Add Modal -->
 <div class="modal fade" id="m-add" tabindex="-1">

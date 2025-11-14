@@ -7,6 +7,7 @@ function showA(id){
   if(id==='a-dash'){ fillKpis(); }
   if(id==='a-menu'){ drawMenuTable(); fillCatSelect(); }
   if(id==='a-reports'){ drawComments(); }
+  if(id==='a-sales'){ /* No action needed on show */ }
 }
 
 function login(){
@@ -82,6 +83,37 @@ function downloadJSON(){
   URL.revokeObjectURL(url);
 }
 
+// Sales Modal Logic
+let mesaActual = null;
+let confirmationModal, successModal;
+document.addEventListener('DOMContentLoaded', () => {
+  confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+  successModal = new bootstrap.Modal(document.getElementById('successModal'));
+});
+
+function mostrarModal(mesaNro, total) {
+  mesaActual = mesaNro;
+  $('modalMesa').textContent = `Mesa Nro. ${mesaNro}`;
+  $('modalTotal').textContent = total;
+  confirmationModal.show();
+}
+function cerrarModal() {
+  confirmationModal.hide();
+}
+function confirmarVenta() {
+  cerrarModal();
+  const filas = document.querySelectorAll('#a-sales tbody tr');
+  filas.forEach(fila => {
+    const mesaTd = fila.querySelector('td:first-child');
+    if (mesaTd && parseInt(mesaTd.textContent) === mesaActual) {
+      fila.classList.add('d-none');
+    }
+  });
+  successModal.show();
+}
+function cerrarSuccessModal() {
+  successModal.hide();
+}
 
 /* Permitir Enter para iniciar sesión */
 document.addEventListener('keydown', (e)=>{
